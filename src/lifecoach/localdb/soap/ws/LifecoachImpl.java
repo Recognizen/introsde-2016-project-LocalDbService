@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import lifecoach.localdb.soap.model.Achievement;
 import lifecoach.localdb.soap.model.Goal;
 import lifecoach.localdb.soap.model.HealthMeasureHistory;
 import lifecoach.localdb.soap.model.Measure;
@@ -28,7 +29,6 @@ public class LifecoachImpl implements Lifecoach {
 		return Goal.getAll();
 	}
 	
-
 	@Override
 	public Goal readGoal(long id) {
 		Goal g = Goal.getGoalById(id);
@@ -49,7 +49,6 @@ public class LifecoachImpl implements Lifecoach {
 			if(g.getMeasureDefinition() != null)
 				existing.setMeasureDefinition(g.getMeasureDefinition());
 		
-			//Measures will not be touched
 			Goal.updateGoal(existing);
 		}
 		return existing;
@@ -62,7 +61,7 @@ public class LifecoachImpl implements Lifecoach {
 		//find a pre-defined MeasureDefinition type
 		MeasureDefinition mDef = MeasureDefinition.getByName(g.getMeasureDefinition().getMeasureType());
 		
-		//if the measure does not have a correct type defined then remove it
+		//if the goal does not have a correct type defined then remove it
 		if(mDef != null){
 			g.setMeasureDefinition(mDef);
 			Goal.saveGoal(g);
@@ -85,6 +84,70 @@ public class LifecoachImpl implements Lifecoach {
 	}	
 	
 	// --- End of Goal table operations
+	
+	//--- Start of AchievedGoals table operations 
+	
+	@Override
+	public List<Achievement> readAchievementList() {
+		System.out.println("Retrieving Achievements");
+		return Achievement.getAll();
+	}
+	
+	@Override
+	public Achievement readAchievement(long id) {
+		Achievement a = Achievement.getAchievementById(id);
+		if (a == null) {
+			System.out.println("---> Didn't find any Goal with  id = "+id);
+		}
+		return a;
+	}
+
+	@Override
+	public Achievement updateAchievement(Achievement a) {
+		
+		Achievement existing = Achievement.getAchievementById(a.getAchievementId());
+		//Update the existing goal with the new information only if specified
+		if(existing != null){
+			if(a.getCompleted() != null)
+				existing.setCompleted(a.getCompleted());
+			if(a.getGoal() != null)
+				existing.setGoal(a.getGoal());
+			if(a.getPerson() != null)
+				existing.setPerson(a.getPerson());
+		
+			Achievement.updateAchievement(existing);
+		}
+		return existing;
+	}
+
+	@Override
+	public Achievement createAchievement(Achievement a) {
+		//reset id to avoid conflicts
+		a.setAchievementId(0);
+		//if the measure does not have a correct type defined then remove it
+		if(a.getGoal() != null && a.getPerson() != null){
+			if(a.getCompleted() == null)
+				a.setCompleted(new Date());
+			Achievement.saveAchievement(a);
+			return a;
+		}
+		
+		//If attempting to insert a Achievement without goal/person set then fail
+		return null;
+	}
+
+	@Override
+	public long deleteAchievement(long id) {
+		Achievement a = Achievement.getAchievementById(id);
+		if (a!=null) {
+			Achievement.removeAchievement(a);
+			return 0;
+		} else {
+			return -1;
+		}
+	}	
+		
+	// --- End of AchievedGoals table operations
     
     //--- Start of Person table operations
 	

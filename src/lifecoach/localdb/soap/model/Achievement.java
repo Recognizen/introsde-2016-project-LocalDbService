@@ -1,6 +1,7 @@
 package lifecoach.localdb.soap.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -10,12 +11,12 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import lifcoach.localdb.soap.dao.LifeCoachDao;
@@ -23,66 +24,65 @@ import lifcoach.localdb.soap.dao.LifeCoachDao;
 import javax.persistence.OneToOne;
 
 /**
- * The persistent class for the "Goal" database table.
+ * The persistent class for the "AchievedGoals" database table.
  * 
  */
 @Entity
-@Table(name = "Goal")
-@NamedQuery(name = "Goal.findAll", query = "SELECT l FROM Goal l")
-@XmlType(propOrder = { "gid", "value", "measureDefinition" })
-@XmlRootElement(name="goal")
-public class AchievedGoal implements Serializable {
+@Table(name = "AchievedGoals")
+@NamedQuery(name = "AchievedGoals.findAll", query = "SELECT l FROM Achievement l")
+@XmlType(propOrder = { "achievementId", "goal", "completed", "person" })
+@XmlRootElement(name="achievements")
+public class Achievement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(generator="sqlite_goal")
-	@TableGenerator(name="sqlite_goal", table="sqlite_sequence",
+	@GeneratedValue(generator="sqlite_achievedgoal")
+	@TableGenerator(name="sqlite_achievedgoal", table="sqlite_sequence",
 	    pkColumnName="name", valueColumnName="seq",
-	    pkColumnValue="Goal")
-	@Column(name = "idGoal")
-	private long gid;
+	    pkColumnValue="AchievedGoal")
+	@Column(name = "id")
+	private long achievementId;
 
-	@Column(name = "value")
-	private String value;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "completed")
+	private Date completed;
 	
 	@OneToOne
-	@JoinColumn(name = "idMeasureDef", referencedColumnName = "idMeasureDef")
-	private MeasureDefinition measureDefinition;
+	@JoinColumn(name = "idGoal", referencedColumnName = "idGoal")
+	private Goal goal;
 	
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="idPerson",referencedColumnName="idPerson")
 	private Person person;
 
-	public AchievedGoal() {
+	public Achievement() {
 	}
 
-	public long getGid() {
-		return this.gid;
+	public long getAchievementId() {
+		return this.achievementId;
 	}
 
-	public void setGid(long idGoal) {
-		this.gid = idGoal;
+	public void setAchievementId(long idAchievement) {
+		this.achievementId = idAchievement;
 	}
 
-	public String getValue() {
-		return this.value;
+	public Date getCompleted() {
+		return this.completed;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setCompleted(Date completed) {
+		this.completed = completed;
 	}
 	
 
-	public MeasureDefinition getMeasureDefinition() {
-		return measureDefinition;
+	public Goal getGoal() {
+		return goal;
 	}
 
-	public void setMeasureDefinition(MeasureDefinition param) {
-		this.measureDefinition = param;
+	public void setGoal(Goal param) {
+		this.goal = param;
 	}
 
-	// we make this transient for JAXB to avoid and infinite loop on serialization
-	@XmlTransient
 	public Person getPerson() {
 		return person;
 	}
@@ -94,21 +94,21 @@ public class AchievedGoal implements Serializable {
 	// Database operations
 	// Notice that, for this example, we create and destroy and entityManager on each operation. 
 	// How would you change the DAO to not having to create the entity manager every time? 
-	public static AchievedGoal getGoalById(long gid) {
+	public static Achievement getAchievementById(long gid) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
-		AchievedGoal g = em.find(AchievedGoal.class, gid);
+		Achievement g = em.find(Achievement.class, gid);
 		LifeCoachDao.instance.closeConnections(em);
 		return g;
 	}
 	
-	public static List<AchievedGoal> getAll() {
+	public static List<Achievement> getAll() {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
-	    List<AchievedGoal> list = em.createNamedQuery("Goal.findAll", AchievedGoal.class).getResultList();
+	    List<Achievement> list = em.createNamedQuery("Goal.findAll", Achievement.class).getResultList();
 	    LifeCoachDao.instance.closeConnections(em);
 	    return list;
 	}
 	
-	public static AchievedGoal saveGoal(AchievedGoal g) {
+	public static Achievement saveAchievement(Achievement g) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -118,7 +118,7 @@ public class AchievedGoal implements Serializable {
 	    return g;
 	}
 	
-	public static AchievedGoal updateGoal(AchievedGoal g) {
+	public static Achievement updateAchievement(Achievement g) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -128,7 +128,7 @@ public class AchievedGoal implements Serializable {
 	    return g;
 	}
 	
-	public static void removeGoal(AchievedGoal g) {
+	public static void removeAchievement(Achievement g) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();

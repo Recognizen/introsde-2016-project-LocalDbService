@@ -11,6 +11,7 @@ import javax.jws.soap.SOAPBinding.ParameterStyle;
 import javax.jws.soap.SOAPBinding.Style;
 import javax.jws.soap.SOAPBinding.Use;
 
+import lifecoach.localdb.soap.model.Achievement;
 import lifecoach.localdb.soap.model.Goal;
 import lifecoach.localdb.soap.model.HealthMeasureHistory;
 import lifecoach.localdb.soap.model.Measure;
@@ -29,7 +30,7 @@ public interface Lifecoach {
     //Specific goal
     @WebMethod(operationName="readGoal")
     @WebResult(name="goal") 
-    public Goal readGoal(@WebParam(name="goal") long id); 
+    public Goal readGoal(@WebParam(name="goalId") long id); 
     
     //Task 3
     @WebMethod(operationName="updateGoal")
@@ -47,6 +48,34 @@ public interface Lifecoach {
     public long deleteGoal(@WebParam(name="goalId") long id);
     
     // --- End of Goal table operations
+    
+    //-- Start of AchievedGoal Table operations
+	
+    @WebMethod(operationName="readAchievementList")
+    @WebResult(name="achievements") 
+    public List<Achievement> readAchievementList();
+    
+    //Specific goal
+    @WebMethod(operationName="readAchievement")
+    @WebResult(name="achievement") 
+    public Achievement readAchievement(@WebParam(name="achievementId") long id); 
+    
+    //Task 3
+    @WebMethod(operationName="updateAchievement")
+    @WebResult(name="achievement") 
+    public Achievement updateAchievement(@WebParam(name="achievement") Achievement a);
+
+    //Tast 4
+    @WebMethod(operationName="createAchievement")
+    @WebResult(name="achievement") 
+    public Achievement createAchievement(@WebParam(name="Achievement") Achievement a);
+
+    //Task 5
+    @WebMethod(operationName="deleteAchievement")
+    @WebResult(name="achievementId") 
+    public long deleteAchievement(@WebParam(name="achievementId") long id);
+    
+    // --- End of AchievedGoals table operations
     
     //--- Start of Person table operations
     
