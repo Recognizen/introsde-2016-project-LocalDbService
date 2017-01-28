@@ -103,7 +103,7 @@ public class Achievement implements Serializable {
 	
 	public static List<Achievement> getAll() {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
-	    List<Achievement> list = em.createNamedQuery("Goal.findAll", Achievement.class).getResultList();
+	    List<Achievement> list = em.createNamedQuery("AchievedGoals.findAll", Achievement.class).getResultList();
 	    LifeCoachDao.instance.closeConnections(em);
 	    return list;
 	}

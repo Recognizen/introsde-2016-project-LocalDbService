@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -28,7 +30,7 @@ import javax.persistence.OneToOne;
 @Table(name = "Goal")
 @NamedQuery(name = "Goal.findAll", query = "SELECT l FROM Goal l")
 @XmlType(propOrder = { "gid", "value", "measureDefinition" })
-@XmlRootElement(name="goal")
+@XmlRootElement
 public class Goal implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -66,7 +68,6 @@ public class Goal implements Serializable {
 		this.value = value;
 	}
 	
-
 	public MeasureDefinition getMeasureDefinition() {
 		return measureDefinition;
 	}
@@ -84,7 +85,7 @@ public class Goal implements Serializable {
 		LifeCoachDao.instance.closeConnections(em);
 		return g;
 	}
-	
+
 	public static List<Goal> getAll() {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 	    List<Goal> list = em.createNamedQuery("Goal.findAll", Goal.class).getResultList();

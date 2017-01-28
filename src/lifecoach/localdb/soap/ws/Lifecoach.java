@@ -22,9 +22,8 @@ import lifecoach.localdb.soap.model.Person;
 public interface Lifecoach {
 	 
 	//-- Start of Goal Table operations
-	
     @WebMethod(operationName="readGoalList")
-    @WebResult(name="goals") 
+    @WebResult(name="goal") 
     public List<Goal> readGoalList();
     
     //Specific goal
@@ -52,7 +51,7 @@ public interface Lifecoach {
     //-- Start of AchievedGoal Table operations
 	
     @WebMethod(operationName="readAchievementList")
-    @WebResult(name="achievements") 
+    @WebResult(name="achievement") 
     public List<Achievement> readAchievementList();
     
     //Specific goal
@@ -81,7 +80,7 @@ public interface Lifecoach {
     
 	//Task 1
     @WebMethod(operationName="readPersonList")
-    @WebResult(name="people") 
+    @WebResult(name="person") 
     public List<Person> readPersonList();
 	
     //Task 2
