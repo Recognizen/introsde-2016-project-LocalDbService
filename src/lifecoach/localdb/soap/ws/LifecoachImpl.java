@@ -26,7 +26,7 @@ public class LifecoachImpl implements Lifecoach {
 	@Override
 	public List<Goal> readGoalList(long personId) {
 		System.out.println("Retrieving Goals for Person: "+personId);
-		List<Goal> goals = null;
+		List<Goal> goals = new ArrayList<Goal>();
 		for(Goal g : Goal.getAll()){
 			if(g.getPerson().getPersonId() == personId)
 				goals.add(g);
@@ -95,7 +95,7 @@ public class LifecoachImpl implements Lifecoach {
 	@Override
 	public List<Achievement> readAchievementList(long personId) {
 		System.out.println("Retrieving Achievements for Person: "+personId);
-		List<Achievement> achievements = null;
+		List<Achievement> achievements = new ArrayList<Achievement>();
 		for(Achievement a : Achievement.getAll()){
 			if(a.getPerson().getPersonId() == personId)
 				achievements.add(a);
@@ -263,6 +263,7 @@ public class LifecoachImpl implements Lifecoach {
 	//Task 6
 	@Override
 	public List<HealthMeasureHistory> readPersonHistory(long id, String measureType) {
+			System.out.println(id +" ------- "+ measureType);
 			Person p = Person.getPersonById(id);
 			List<HealthMeasureHistory> healthHistory = new ArrayList<>();
 			for(HealthMeasureHistory m : p.getHealthHistory()){

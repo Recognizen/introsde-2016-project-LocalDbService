@@ -41,7 +41,7 @@ public class Achievement implements Serializable {
 	@TableGenerator(name="sqlite_achievedgoal", table="sqlite_sequence",
 	    pkColumnName="name", valueColumnName="seq",
 	    pkColumnValue="AchievedGoal")
-	@Column(name = "achievementId")
+	@Column(name = "idAchievement")
 	private long achievementId;
 
 	@Temporal(TemporalType.DATE)
