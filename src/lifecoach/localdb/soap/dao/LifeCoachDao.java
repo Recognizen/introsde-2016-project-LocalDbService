@@ -1,4 +1,4 @@
-package lifcoach.localdb.soap.dao;
+package lifecoach.localdb.soap.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

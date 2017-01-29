@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-import lifcoach.localdb.soap.dao.LifeCoachDao;
+import lifecoach.localdb.soap.dao.LifeCoachDao;
 
 import javax.persistence.OneToOne;
 
@@ -32,15 +32,15 @@ import javax.persistence.OneToOne;
 @Table(name = "AchievedGoals")
 @NamedQuery(name = "AchievedGoals.findAll", query = "SELECT l FROM Achievement l")
 @XmlType(propOrder = { "achievementId", "value","completed", "measureDefinition" })
-@XmlRootElement(name="achievements")
+@XmlRootElement(name="achievement")
 public class Achievement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(generator="sqlite_achievedgoal")
-	@TableGenerator(name="sqlite_achievedgoal", table="sqlite_sequence",
+	@GeneratedValue(generator="sqlite_achievedgoals")
+	@TableGenerator(name="sqlite_achievedgoals", table="sqlite_sequence",
 	    pkColumnName="name", valueColumnName="seq",
-	    pkColumnValue="AchievedGoal")
+	    pkColumnValue="AchievedGoals")
 	@Column(name = "idAchievement")
 	private long achievementId;
 

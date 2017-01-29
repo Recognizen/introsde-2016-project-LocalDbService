@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-import lifcoach.localdb.soap.dao.LifeCoachDao;
+import lifecoach.localdb.soap.dao.LifeCoachDao;
 
 import javax.persistence.OneToOne;
 

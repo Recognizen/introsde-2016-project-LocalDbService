@@ -39,7 +39,7 @@ public interface Lifecoach {
     //Tast 4
     @WebMethod(operationName="createGoal")
     @WebResult(name="goal") 
-    public Goal createGoal(@WebParam(name="Goal") Goal g);
+    public Goal createGoal(@WebParam(name="Goal") Goal g, @WebParam(name="personId") long personId);
 
     //Task 5
     @WebMethod(operationName="deleteGoal")
@@ -67,7 +67,7 @@ public interface Lifecoach {
     //Tast 4
     @WebMethod(operationName="createAchievement")
     @WebResult(name="achievement") 
-    public Achievement createAchievement(@WebParam(name="Achievement") Achievement a);
+    public Achievement createAchievement(@WebParam(name="Achievement") Achievement a,@WebParam(name="personId") long personId);
 
     //Task 5
     @WebMethod(operationName="deleteAchievement")

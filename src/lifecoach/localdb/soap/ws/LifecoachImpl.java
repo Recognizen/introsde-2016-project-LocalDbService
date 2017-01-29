@@ -60,9 +60,10 @@ public class LifecoachImpl implements Lifecoach {
 	}
 
 	@Override
-	public Goal createGoal(Goal g) {
+	public Goal createGoal(Goal g, long personId) {
 		//reset id to avoid conflicts
 		g.setGid(0);
+		g.setPerson(Person.getPersonById(personId));
 		//find a pre-defined MeasureDefinition type
 		MeasureDefinition mDef = MeasureDefinition.getByName(g.getMeasureDefinition().getMeasureType());
 		
@@ -133,11 +134,17 @@ public class LifecoachImpl implements Lifecoach {
 	}
 
 	@Override
-	public Achievement createAchievement(Achievement a) {
+	public Achievement createAchievement(Achievement a, long personId) {
+		
+		System.out.println("Adding achievement ......");
 		//reset id to avoid conflicts
 		a.setAchievementId(0);
+		a.setPerson(Person.getPersonById(personId));
 		//if the measure does not have a correct type defined then remove it
-		if(a.getMeasureDefinition() != null && a.getPerson() != null){
+		MeasureDefinition mDef = MeasureDefinition.getByName(a.getMeasureDefinition().getMeasureType());
+		
+		if(mDef != null && a.getPerson() != null){
+			a.setMeasureDefinition(mDef);
 			if(a.getCompleted() == null)
 				a.setCompleted(new Date());
 			Achievement.saveAchievement(a);
