@@ -10,12 +10,14 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import lifcoach.localdb.soap.dao.LifeCoachDao;
@@ -48,7 +50,11 @@ public class Goal implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "idMeasureDef", referencedColumnName = "idMeasureDef")
 	private MeasureDefinition measureDefinition;
-
+	
+	@ManyToOne
+	@JoinColumn(name="idPerson",referencedColumnName="idPerson")
+	private Person person;
+	
 	public Goal() {
 	}
 
@@ -74,6 +80,15 @@ public class Goal implements Serializable {
 
 	public void setMeasureDefinition(MeasureDefinition param) {
 		this.measureDefinition = param;
+	}
+	
+	@XmlTransient
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 	
 	// Database operations

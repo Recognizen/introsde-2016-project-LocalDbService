@@ -24,9 +24,14 @@ public class LifecoachImpl implements Lifecoach {
     //--- Start of Goal table operations 
 	
 	@Override
-	public List<Goal> readGoalList() {
-		System.out.println("Retrieving Goals");
-		return Goal.getAll();
+	public List<Goal> readGoalList(long personId) {
+		System.out.println("Retrieving Goals for Person: "+personId);
+		List<Goal> goals = null;
+		for(Goal g : Goal.getAll()){
+			if(g.getPerson().getPersonId() == personId)
+				goals.add(g);
+		}
+		return goals;
 	}
 	
 	@Override
@@ -88,9 +93,14 @@ public class LifecoachImpl implements Lifecoach {
 	//--- Start of AchievedGoals table operations 
 	
 	@Override
-	public List<Achievement> readAchievementList() {
-		System.out.println("Retrieving Achievements");
-		return Achievement.getAll();
+	public List<Achievement> readAchievementList(long personId) {
+		System.out.println("Retrieving Achievements for Person: "+personId);
+		List<Achievement> achievements = null;
+		for(Achievement a : Achievement.getAll()){
+			if(a.getPerson().getPersonId() == personId)
+				achievements.add(a);
+		}
+		return achievements;
 	}
 	
 	@Override
@@ -110,10 +120,12 @@ public class LifecoachImpl implements Lifecoach {
 		if(existing != null){
 			if(a.getCompleted() != null)
 				existing.setCompleted(a.getCompleted());
-			if(a.getGoal() != null)
-				existing.setGoal(a.getGoal());
+			if(a.getMeasureDefinition() != null)
+				existing.setMeasureDefinition(a.getMeasureDefinition());
 			if(a.getPerson() != null)
 				existing.setPerson(a.getPerson());
+			if(a.getValue() != null)
+				existing.setValue(a.getValue());
 		
 			Achievement.updateAchievement(existing);
 		}
@@ -125,14 +137,14 @@ public class LifecoachImpl implements Lifecoach {
 		//reset id to avoid conflicts
 		a.setAchievementId(0);
 		//if the measure does not have a correct type defined then remove it
-		if(a.getGoal() != null && a.getPerson() != null){
+		if(a.getMeasureDefinition() != null && a.getPerson() != null){
 			if(a.getCompleted() == null)
 				a.setCompleted(new Date());
 			Achievement.saveAchievement(a);
 			return a;
 		}
 		
-		//If attempting to insert a Achievement without goal/person set then fail
+		//If attempting to insert an Achievement without goal/person set then fail
 		return null;
 	}
 
@@ -293,9 +305,6 @@ public class LifecoachImpl implements Lifecoach {
 	//Task 9
 	public Person savePersonMeasure(long id, Measure measure){
 		
-		System.out.println("VALUE "+ measure.getMeasureValue());
-		if(measure.getMeasureDefinition() == null)
-			System.out.println("FUCKKK");
 		System.out.println("TYPE "+ measure.getMeasureDefinition().getMeasureType());
 	
 		//Making sure the type defined is allowed

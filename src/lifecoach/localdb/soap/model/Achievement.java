@@ -17,6 +17,7 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import lifcoach.localdb.soap.dao.LifeCoachDao;
@@ -30,7 +31,7 @@ import javax.persistence.OneToOne;
 @Entity
 @Table(name = "AchievedGoals")
 @NamedQuery(name = "AchievedGoals.findAll", query = "SELECT l FROM Achievement l")
-@XmlType(propOrder = { "achievementId", "goal", "completed", "person" })
+@XmlType(propOrder = { "achievementId", "value","completed", "measureDefinition" })
 @XmlRootElement(name="achievements")
 public class Achievement implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -40,16 +41,19 @@ public class Achievement implements Serializable {
 	@TableGenerator(name="sqlite_achievedgoal", table="sqlite_sequence",
 	    pkColumnName="name", valueColumnName="seq",
 	    pkColumnValue="AchievedGoal")
-	@Column(name = "id")
+	@Column(name = "achievementId")
 	private long achievementId;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "completed")
 	private Date completed;
+
+	@Column(name = "value")
+	private String value;
 	
 	@OneToOne
-	@JoinColumn(name = "idGoal", referencedColumnName = "idGoal")
-	private Goal goal;
+	@JoinColumn(name = "idMeasureDef", referencedColumnName = "idMeasureDef")
+	private MeasureDefinition measureDefinition;
 	
 	@OneToOne
 	@JoinColumn(name="idPerson",referencedColumnName="idPerson")
@@ -74,15 +78,23 @@ public class Achievement implements Serializable {
 		this.completed = completed;
 	}
 	
-
-	public Goal getGoal() {
-		return goal;
+	public String getValue() {
+		return this.value;
 	}
 
-	public void setGoal(Goal param) {
-		this.goal = param;
+	public void setValue(String value) {
+		this.value = value;
+	}	
+
+	public MeasureDefinition getMeasureDefinition() {
+		return measureDefinition;
 	}
 
+	public void setMeasureDefinition(MeasureDefinition param) {
+		this.measureDefinition = param;
+	}
+	
+	@XmlTransient
 	public Person getPerson() {
 		return person;
 	}

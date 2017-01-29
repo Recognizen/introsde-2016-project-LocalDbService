@@ -24,12 +24,12 @@ public interface Lifecoach {
 	//-- Start of Goal Table operations
     @WebMethod(operationName="readGoalList")
     @WebResult(name="goal") 
-    public List<Goal> readGoalList();
+    public List<Goal> readGoalList(@WebParam(name="personId") long id);
     
     //Specific goal
     @WebMethod(operationName="readGoal")
     @WebResult(name="goal") 
-    public Goal readGoal(@WebParam(name="goalId") long id); 
+    public Goal readGoal(@WebParam(name="goalId") long goalId); 
     
     //Task 3
     @WebMethod(operationName="updateGoal")
@@ -52,12 +52,12 @@ public interface Lifecoach {
 	
     @WebMethod(operationName="readAchievementList")
     @WebResult(name="achievement") 
-    public List<Achievement> readAchievementList();
+    public List<Achievement> readAchievementList(@WebParam(name="personId") long id);
     
     //Specific goal
     @WebMethod(operationName="readAchievement")
     @WebResult(name="achievement") 
-    public Achievement readAchievement(@WebParam(name="achievementId") long id); 
+    public Achievement readAchievement(@WebParam(name="achievementId") long achievementId); 
     
     //Task 3
     @WebMethod(operationName="updateAchievement")
@@ -125,7 +125,7 @@ public interface Lifecoach {
     //Task 9
     @WebMethod(operationName="savePersonMeasure")
     @WebResult(name="person") 
-    public Person savePersonMeasure(@WebParam(name="personId") long id, @WebParam(name="measure", targetNamespace="http://ws.soap.localdb/") Measure m);
+    public Person savePersonMeasure(@WebParam(name="personId") long id, @WebParam(name="measure") Measure m);
 
     //Task 10.1 Update current Measure
     @WebMethod(operationName="updatePersonMeasure")
